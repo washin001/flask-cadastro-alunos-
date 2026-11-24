@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Cadastro de Alunos{% endblock %}
+
+{% block page_content %}
+<h1>Cadastro de Alunos</h1>
+{{ wtf.quick_form(form) }}
+<hr>
+<h3>Alunos cadastrados</h3>
+{% if alunos %}
+<table class="table table-striped">
+  <thead>
+    <tr><th>#</th><th>Nome</th><th>Prontuário</th><th>Cadastrado em</th></tr>
+  </thead>
+  <tbody>
+    {% for a in alunos %}
+    <tr>
+      <td>{{ a.id }}</td>
+      <td>{{ a.nome }}</td>
+      <td>{{ a.prontuario }}</td>
+      <td>{{ moment(a.data_cadastro).format('DD/MM/YYYY HH:mm') }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>Nenhum aluno cadastrado.</p>
+{% endif %}
+{% endblock %}

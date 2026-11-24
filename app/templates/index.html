@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<h1>Avaliação semestral</h1>
+<h3>Aluno: {{ aluno }}</h3>
+<h3>Prontuário: {{ prontuario }}</h3>
+<hr>
+<p>A data e hora local é {{ moment(current_time).format('LLL') }}.</p>
+{% endblock %}
