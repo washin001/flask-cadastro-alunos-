@@ -4,22 +4,18 @@
 {% block title %}Cadastro de Alunos{% endblock %}
 
 {% block page_content %}
-<h1>Cadastro de Alunos</h1>
 {{ wtf.quick_form(form) }}
-<hr>
-<h3>Alunos cadastrados</h3>
+<h2>Relação de alunos cadastrados</h2>
 {% if alunos %}
-<table class="table table-striped">
+<table class="table">
   <thead>
-    <tr><th>#</th><th>Nome</th><th>Prontuário</th><th>Cadastrado em</th></tr>
+    <tr><th>Aluno</th><th>Disciplina</th></tr>
   </thead>
   <tbody>
     {% for a in alunos %}
     <tr>
-      <td>{{ a.id }}</td>
       <td>{{ a.nome }}</td>
-      <td>{{ a.prontuario }}</td>
-      <td>{{ moment(a.data_cadastro).format('DD/MM/YYYY HH:mm') }}</td>
+      <td>{{ a.disciplina.nome }}</td>
     </tr>
     {% endfor %}
   </tbody>

@@ -5,7 +5,7 @@ from flask import flash, redirect, render_template, url_for
 from . import main
 from .forms import AlunoForm
 from .. import db
-from ..models import Aluno
+from ..models import Aluno, Disciplina
 
 ALUNO_NOME = 'Washington N Sousa'
 ALUNO_PRONTUARIO = 'PT303755X'
@@ -24,14 +24,13 @@ def index():
 @main.route('/alunos', methods=['GET', 'POST'])
 def alunos():
     form = AlunoForm()
+    form.disciplina.choices = [
+        (d.id, d.nome) for d in Disciplina.query.order_by(Disciplina.nome).all()
+    ]
     if form.validate_on_submit():
-        prontuario = form.prontuario.data.strip().upper()
-        if Aluno.query.filter_by(prontuario=prontuario).first():
-            flash('Já existe um aluno com esse prontuário.', 'danger')
-        else:
-            db.session.add(Aluno(nome=form.nome.data.strip(), prontuario=prontuario))
-            db.session.commit()
-            flash('Aluno cadastrado com sucesso!', 'success')
-            return redirect(url_for('main.alunos'))
+        db.session.add(Aluno(nome=form.nome.data.strip(), disciplina_id=form.disciplina.data))
+        db.session.commit()
+        flash('Aluno cadastrado com sucesso!', 'success')
+        return redirect(url_for('main.alunos'))
     lista = Aluno.query.order_by(Aluno.id.desc()).all()
     return render_template('alunos.html', form=form, alunos=lista)
